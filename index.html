@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta name="description" content="flight wallet - Pay Bitcoin securely">
+  <script>
+    var query = window.location.search || "?"
+    var params = query.slice(1).split("&").map((str) => str.split("=")).reduce((obj, [key, value]) => ({ [key]: value, ...obj }), {})
+    console.log('params', params)
+    var bitcoinURI = "bitcoin://" + params.address + "?amount=" + parseFloat(params.amount)
+    console.log('redirect to', bitcoinURI)
+    window.location = bitcoinURI
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
