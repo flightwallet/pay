@@ -62,23 +62,31 @@
 <!-- /Yandex.Metrika counter -->
 </head>
 
+<style>
+</style>
+
 <body>
-
-  <h1>Send me crypto to <div id="chain-value"></div></h1>
-  <div id="address">
-    Address: 
-    <div id="address-value">
-      
+  <div id="container" style="justify-content: center; align-items: center; text-align: center;">
+    <div id="title" style="font-size: 30px; ">
+      <h1>Send me crypto to <div id="chain-value"></div></h1>
     </div>
-  </div>
-  <div id="amount">
-    Amount: 
-    <div id="amount-value">
+    <br>
+    <div id="address">
+      Address: 
+      <div id="address-value">
+        
+      </div>
     </div>
-  </div>
+    <br>
+    <div id="amount">
+      Amount: 
+      <div id="amount-value">
+      </div>
+    </div>
 
-  <div id="qrcode">
+    <div id="qrcode">
 
+    </div>
   </div>
 
   <script>
@@ -89,9 +97,9 @@
     params.chain = params.chain ? params.chain : "bitcoin"
 
     var bitcoinURI = params.chain + "://" + params.address + "?amount=" + parseFloat(params.amount)
-    console.log('redirect to', bitcoinURI)
     try {
-      window.location = bitcoinURI
+      document.location = bitcoinURI
+      console.log('redirect to', bitcoinURI)
     }
     catch(err) {
       console.log("redirect failed - device does not support URI '" + params.chain + "'")
