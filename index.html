@@ -99,7 +99,7 @@
 
     params.chain = params.chain ? params.chain : "bitcoin"
 
-    var bitcoinURI = params.chain + "://" + params.address 
+    var bitcoinURI = params.chain + ":" + params.address 
     if (params.amount) {
       bitcoinURI += "?amount=" + parseFloat(params.amount)
     }
