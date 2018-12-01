@@ -2,47 +2,113 @@
 <html>
 
 <head>
-  <meta name="description" content="flight wallet - Pay Bitcoin securely">
+  <meta name="description" content="Use this link to transfer me some coins">
+  <meta name="keywords" content="Bitcoin,Ethereum,Blockchain,Cryptocurrency, Cold wallet, Mobile wallet">
+  <meta name="author" content="Flightwallet.org">
+  <meta name="description" content="Use this link to transfer me some coins" />
+
+  <title>Send me crypto</title>
+  <meta name="description" content="Use this link to transfer me some coins" />
+
+  <!-- Schema.org markup for Google+ -->
+  <meta itemprop="name" content="Send me crypto">
+  <meta itemprop="description" content="Use this link to transfer me some coins">
+  <meta itemprop="image" content="https://raw.githubusercontent.com/flightwallet/flightwallet.github.io/master/images/wallet-2%20copy.png">
+
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="product">
+  <meta name="twitter:site" content="@caffeinum">
+  <meta name="twitter:title" content="Send me crypto">
+  <meta name="twitter:description" content="Use this link to transfer me some coins">
+  <meta name="twitter:creator" content="@caffeinum">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/flightwallet/flightwallet.github.io/master/images/wallet-2%20copy.png">
+
+  <!-- Open Graph data -->
+  <meta property="og:title" content="Send me crypto" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https:/flightwallet.org" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/flightwallet/flightwallet.github.io/master/images/wallet-2%20copy.png" />
+  <meta property="og:description" content="Send me crypto" />
+  <meta property="og:site_name" content="Flight wallet" />
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter50897126 = new Ya.Metrika2({
+                    id:50897126,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/tag.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks2");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/50897126" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+
+<body>
+
+  <h1>Send me crypto to <div id="chain-value"></div></h1>
+  <div id="address">
+    Address: 
+    <div id="address-value">
+      
+    </div>
+  </div>
+  <div id="amount">
+    Amount: 
+    <div id="amount-value">
+    </div>
+  </div>
+
+  <div id="qrcode">
+
+  </div>
+
   <script>
     var query = window.location.search || "?"
     var params = query.slice(1).split("&").map((str) => str.split("=")).reduce((obj, [key, value]) => ({ [key]: value, ...obj }), {})
     console.log('params', params)
-    var bitcoinURI = "bitcoin://" + params.address + "?amount=" + parseFloat(params.amount)
+
+    params.chain = params.chain ? params.chain : "bitcoin"
+
+    var bitcoinURI = params.chain + "://" + params.address + "?amount=" + parseFloat(params.amount)
     console.log('redirect to', bitcoinURI)
-    window.location = bitcoinURI
+    try {
+      window.location = bitcoinURI
+    }
+    catch(err) {
+      console.log("redirect failed - device does not support URI '" + params.chain + "'")
+    }
+
+    function fillCredentials() {
+      document.getElementById("chain-value").innerHTML = params.chain
+      document.getElementById("address-value").innerHTML = params.address
+      document.getElementById("amount-value").innerHTML = params.amount
+    }
+
+    document.addEventListener("DOMContentLoaded", fillCredentials);
   </script>
-</head>
-
-<body>
-  <!-- Yandex.Metrika counter -->
-  <script type="text/javascript" >
-      (function (d, w, c) {
-          (w[c] = w[c] || []).push(function() {
-              try {
-                  w.yaCounter50897126 = new Ya.Metrika2({
-                      id:50897126,
-                      clickmap:true,
-                      trackLinks:true,
-                      accurateTrackBounce:true,
-                      webvisor:true
-                  });
-              } catch(e) { }
-          });
-
-          var n = d.getElementsByTagName("script")[0],
-              s = d.createElement("script"),
-              f = function () { n.parentNode.insertBefore(s, n); };
-          s.type = "text/javascript";
-          s.async = true;
-          s.src = "https://mc.yandex.ru/metrika/tag.js";
-
-          if (w.opera == "[object Opera]") {
-              d.addEventListener("DOMContentLoaded", f, false);
-          } else { f(); }
-      })(document, window, "yandex_metrika_callbacks2");
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/50897126" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-  <!-- /Yandex.Metrika counter -->
 </body>
+
+<footer>
+  <a href="https://flightwallet.org"><i>flightwallet</i></a>
+</footer>
 
 </html>
