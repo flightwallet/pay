@@ -5,10 +5,8 @@
   <meta name="description" content="Use this link to transfer me some coins">
   <meta name="keywords" content="Bitcoin,Ethereum,Blockchain,Cryptocurrency, Cold wallet, Mobile wallet">
   <meta name="author" content="Flightwallet.org">
-  <meta name="description" content="Use this link to transfer me some coins" />
 
   <title>Send me crypto</title>
-  <meta name="description" content="Use this link to transfer me some coins" />
 
   <!-- Schema.org markup for Google+ -->
   <meta itemprop="name" content="Send me crypto">
@@ -70,9 +68,10 @@
 <body>
   <div id="container" style="justify-content: center; align-items: center; text-align: center;">
     <div id="title" style="font-size: 30px;">
-      <h1>Send me crypto to <div id="chain-value"></div></h1>
+      <h1 id="title-value">Send me crypto to <div id="chain-value"></div></h1>
     </div>
     <br>
+    <div id="instructions"></div>
     <div id="address">
       Address: <div id="address-value"></div>
     </div>
@@ -82,14 +81,18 @@
     </div>
     <br>
     <div style="display: flex; justify-content: center;" id="qrcode"></div>
+    <div id="qrcode-description"></div>
+    <br>
   </div>
 
-  <footer  style="display: flex; justify-content: center;">
-      <a href="https://flightwallet.org"><i>flightwallet</i></a> 
-      <span> &#183; </span>
-      <a href="https://github.com/flightwallet/pay/"><i>github</i></a> 
-      <span> &#183; </span>
-      <a href="https://flightwallet.org/pay?chain=bitcoin&address=mvF1LyVR6yxFpEwmkeMVq3SBx2pX6mcFYV&amount=0.01"><i>example</i></a> 
+  <footer  style="display: flex; justify-content: center; position: fixed; left: 0; width: 100%;">
+    <a href="https://flightwallet.org/pay?chain=bitcoin&address=mvF1LyVR6yxFpEwmkeMVq3SBx2pX6mcFYV&amount=0.01"><i>example</i></a> 
+    <span> &#183; </span>
+    <a href="https://flightwallet.org"><i>flightwallet</i></a> 
+    <span> &#183; </span>
+    <a href="https://github.com/flightwallet/pay/"><i>github</i></a> 
+    <span> &#183; </span>
+    <a href="https://t.me/flightwallet"><i>contact</i></a> 
   </footer>
 
   <script>
@@ -104,22 +107,8 @@
       bitcoinURI += "?amount=" + parseFloat(params.amount)
     }
 
-    // function flightwalletLink(){
-    // return function(){
-    //         var clickedAt = +new Date;
-    //         // During tests on 3g/3gs this timeout fires immediately if less than 500ms.
-    //         setTimeout(function(){
-    //             // To avoid failing on return to MobileSafari, ensure freshness!
-    //             if (+new Date - clickedAt < 2000){
-    //                 window.location = "https://flightwallet.org";
-    //             }
-    //         }, 500);    
-    //     };
-    // }
-
     try {
       if (params.address) {
-        // flightwalletLink()
         document.location = bitcoinURI
         console.log('redirect to', bitcoinURI)
       }
@@ -135,18 +124,29 @@
       document.getElementById("address-value").innerHTML = params.address
       document.getElementById("amount-value").innerHTML = params.amount
 
-      var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: bitcoinURI,
-        width: 512,
-        height: 512,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-      });
+      if (params.address) {
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+          text: bitcoinURI,
+          width: 512,
+          height: 512,
+          colorDark : "#000000",
+          colorLight : "#ffffff",
+          correctLevel : QRCode.CorrectLevel.H
+        });
+        document.getElementById("qrcode-description").innerHTML = bitcoinURI
+      }
     }
 
     function fillFallback() {
-      document.getElementById("title").innerHTML = "No address specified"
+      document.getElementById("title-value").innerHTML = "Generate crypto invoice request"
+      document.getElementById("instructions").innerHTML = "<h2>Example</h2>\
+      https://flightwallet.org/pay?<b>chain</b>=bitcoin&<b>address</b>=mvF1LyVR6yxFpEwmkeMVq3SBx2pX6mcFYV&<b>amount</b>=0.01\
+      <br>\
+      <h2>Result</h2>\
+      bitcoin: bitcoin:mvF1LyVR6yxFpEwmkeMVq3SBx2pX6mcFYV?amount=0.01\
+      <br><br><br>\
+      <h2>Params that you have already passed</h2>\
+      "
     }
 
     if (params.address) {
