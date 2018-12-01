@@ -60,6 +60,8 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/50897126" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+
+<script src="https://davidshimjs.github.io/qrcodejs/qrcode.min.js"></script>
 </head>
 
 <style>
@@ -67,26 +69,19 @@
 
 <body>
   <div id="container" style="justify-content: center; align-items: center; text-align: center;">
-    <div id="title" style="font-size: 30px; ">
+    <div id="title" style="font-size: 30px;">
       <h1>Send me crypto to <div id="chain-value"></div></h1>
     </div>
     <br>
     <div id="address">
-      Address: 
-      <div id="address-value">
-        
-      </div>
+      Address: <div id="address-value"></div>
     </div>
     <br>
     <div id="amount">
-      Amount: 
-      <div id="amount-value">
-      </div>
+      Amount: <div id="amount-value"></div>
     </div>
-
-    <div id="qrcode">
-
-    </div>
+    <br>
+    <div style="display: flex; justify-content: center;" id="qrcode"></div>
   </div>
 
   <script>
@@ -96,7 +91,11 @@
 
     params.chain = params.chain ? params.chain : "bitcoin"
 
-    var bitcoinURI = params.chain + "://" + params.address + "?amount=" + parseFloat(params.amount)
+    var bitcoinURI = params.chain + "://" + params.address 
+    if (params.amount) {
+      bitcoinURI += "?amount=" + parseFloat(params.amount)
+    }
+
     try {
       document.location = bitcoinURI
       console.log('redirect to', bitcoinURI)
@@ -109,9 +108,28 @@
       document.getElementById("chain-value").innerHTML = params.chain
       document.getElementById("address-value").innerHTML = params.address
       document.getElementById("amount-value").innerHTML = params.amount
+
+      var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: bitcoinURI,
+        width: 512,
+        height: 512,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
     }
 
-    document.addEventListener("DOMContentLoaded", fillCredentials);
+    function fillFallback() {
+      document.getElementById("title").innerHTML = "No address specified"
+    }
+
+    if (params.address) {
+      document.addEventListener("DOMContentLoaded", fillCredentials);
+    } else {
+      console.log('no values', params)
+      document.addEventListener("DOMContentLoaded", fillCredentials);
+      document.addEventListener("DOMContentLoaded", fillFallback);
+    }
   </script>
 </body>
 
