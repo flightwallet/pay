@@ -57,11 +57,11 @@
             d.addEventListener("DOMContentLoaded", f, false);
         } else { f(); }
     })(document, window, "yandex_metrika_callbacks2");
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/50897126" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/50897126" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
 
-<script src="https://davidshimjs.github.io/qrcodejs/qrcode.min.js"></script>
+  <script src="https://davidshimjs.github.io/qrcodejs/qrcode.min.js"></script>
 </head>
 
 <style>
@@ -84,6 +84,10 @@
     <div style="display: flex; justify-content: center;" id="qrcode"></div>
   </div>
 
+  <footer  style="display: flex; justify-content: center;">
+      <a href="https://flightwallet.org"><i>flightwallet</i></a>
+  </footer>
+
   <script>
     var query = window.location.search || "?"
     var params = query.slice(1).split("&").map((str) => str.split("=")).reduce((obj, [key, value]) => ({ [key]: value, ...obj }), {})
@@ -96,12 +100,30 @@
       bitcoinURI += "?amount=" + parseFloat(params.amount)
     }
 
+    // function flightwalletLink(){
+    // return function(){
+    //         var clickedAt = +new Date;
+    //         // During tests on 3g/3gs this timeout fires immediately if less than 500ms.
+    //         setTimeout(function(){
+    //             // To avoid failing on return to MobileSafari, ensure freshness!
+    //             if (+new Date - clickedAt < 2000){
+    //                 window.location = "https://flightwallet.org";
+    //             }
+    //         }, 500);    
+    //     };
+    // }
+
     try {
-      document.location = bitcoinURI
-      console.log('redirect to', bitcoinURI)
+      if (params.address) {
+        // flightwalletLink()
+        document.location = bitcoinURI
+        console.log('redirect to', bitcoinURI)
+      }
     }
     catch(err) {
       console.log("redirect failed - device does not support URI '" + params.chain + "'")
+      window.location.reload(true);
+      window.open("https://flightwallet.org", '_blank');
     }
 
     function fillCredentials() {
@@ -132,9 +154,5 @@
     }
   </script>
 </body>
-
-<footer>
-  <a href="https://flightwallet.org"><i>flightwallet</i></a>
-</footer>
 
 </html>
