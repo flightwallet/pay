@@ -23,3 +23,5 @@ bitcoin://mvF1LyVR6yxFpEwmkeMVq3SBx2pX6mcFYV?amount=0.1
 
 _____
 [*flightwallet*](https://flightwallet.org)
+
+[<img src="https://raw.githubusercontent.com/morejust/foundation/master/madebymorejust.png" width="100">](https://morejust.foundation/?from=pravda.contracts)
